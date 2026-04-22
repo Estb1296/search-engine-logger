@@ -30,11 +30,11 @@ public class SearchEngineLoggerApp {
             if(searchTerm.equalsIgnoreCase("X")) {
                 isRunning = false;
                 String exit=" exit";
-                System.out.println(formatedDate+exit);
+                //System.out.println(formatedDate+exit); to check if I am receiving and writing the information/searches properly
                 writer.write(formatedDate+exit);
             } else{
                 String search="search : ";
-                System.out.println(formatedDate + " "+search + searchTerm);
+                //System.out.println(formatedDate + " "+search + searchTerm);to check if I am receiving and writing the information/searches properly
                 writer.write(formatedDate + " "+search + searchTerm+"\n");
             }
         }
