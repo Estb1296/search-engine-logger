@@ -1,0 +1,60 @@
+package com.pluralsight;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
+public class SearchEngineLoggerApp {
+    public static void main(String[] args) {
+        Scanner input=new Scanner(System.in);
+        LocalDateTime today = LocalDateTime.now();
+        DateTimeFormatter format;
+        format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        boolean isRunning = true;
+        String formatedDate = today.format(format);
+        System.out.println("What is the text file you want to write to?");
+        String doc=input.nextLine();
+        logSearchActivity(doc, formatedDate, isRunning, input, format);
+    }
+
+    private static void logSearchActivity(String doc, String formatedDate, boolean isRunning, Scanner input, DateTimeFormatter format) {
+        try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(doc));
+        String launch = " Launch";
+        System.out.println(formatedDate + launch);
+        writer.write(formatedDate + launch+"\n");
+            handleSearchInput(isRunning, input, format, writer);
+            writer.close();
+
+        } catch (IOException e) {
+            System.out.println("File not found. Please try again.");
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void handleSearchInput(boolean isRunning, Scanner input, DateTimeFormatter format, BufferedWriter writer) throws IOException {
+        LocalDateTime today;
+        String formatedDate;
+        while(isRunning) {
+            System.out.println("Enter a search term (X to exit):");
+            String searchTerm = input.nextLine();
+            today = LocalDateTime.now();
+            formatedDate = today.format(format);
+            if(searchTerm.equalsIgnoreCase("X")) {
+                isRunning = false;
+                String exit=" exit";
+                //System.out.println(formatedDate+exit); to check if I am receiving and writing the information/searches properly
+                writer.write(formatedDate+exit);
+            } else{
+                String search="search : ";
+                //System.out.println(formatedDate + " "+search + searchTerm);to check if I am receiving and writing the information/searches properly
+                writer.write(formatedDate + " "+search + searchTerm+"\n");
+            }
+        }
+    }
+
+}
